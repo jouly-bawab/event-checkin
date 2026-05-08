@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Event Check-In</title>
+
+  <style>
+    body{
+      font-family: Arial;
+      background:#f4f4f4;
+      padding:30px;
+      direction: rtl;
+    }
+
+    .container{
+      max-width:700px;
+      margin:auto;
+      background:white;
+      padding:20px;
+      border-radius:15px;
+      box-shadow:0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1{
+      text-align:center;
+    }
+
+    input{
+      width:100%;
+      padding:12px;
+      margin-bottom:20px;
+      border-radius:10px;
+      border:1px solid #ccc;
+      font-size:16px;
+    }
+
+    .guest{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:#fafafa;
+      padding:12px;
+      margin-bottom:10px;
+      border-radius:10px;
+    }
+
+    button{
+      padding:8px 15px;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      background:#222;
+      color:white;
+    }
+
+    .checked{
+      background:green;
+    }
+
+    .counter{
+      margin-bottom:15px;
+      font-size:18px;
+      font-weight:bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Guest Check-In</h1>
+
+  <div class="counter">
+    عدد الحضور: <span id="count">0</span>
+  </div>
+
+  <input type="text" id="search" placeholder="ابحث عن اسم الضيف">
+
+  <div id="guestList"></div>
+
+</div>
+
+<script>
+
+const guests = [
+
+  // السبونسرز
+  "Good Day",
+  "لام سويتس - سلسبيل درباس",
+  "ZUMOT group",
+  "VIBER",
+  "Cap",
+  "مطعم هاشم",
+
+  // جامعة الحصن
+  "IEEE AL-Huson University College Student Branch",
+  "IEEE Al-Huson Branch WIE",
+
+  // جامعة جدارا
+  "IEEE Jadara University",
+  "IEEE COMPUTER SOCIETY JADARA UNIVERSITY",
+  "The IEEE Woman IN",
+  "JADARA UNIVERSITY IEEE WIE",
+  "STUDENT CHAPTER",
+  "IEEE CIS JADARA",
+  "IEEE RAS JADARA",
+
+  // جامعة اليرموك
+  "IEEE AESS",
+
+  // جامعة التكنو
+  "IEEE COMPUTER SOCIETY JUST",
+
+  // الشركات والمبادرات
+  "ZAKA JORDAN CHAPTER",
+  "PIONEERS Training Center",
+  "مبادرة اثر",
+  "ITA | ACADEMY",
+  "NEXTGEN TECH TEAM",
+  "FLASHA",
+
+  // ممثلين وتغطية
+  "Ai EXPO - عبد الرحمن بني عيسى",
+  "حمزة الحاج",
+  "ريتاح درباس",
+  "كرم المغربي"
+
+];
+
+const guestList = document.getElementById("guestList");
+const count = document.getElementById("count");
+
+let checkedCount = 0;
+
+function renderGuests(list){
+
+  guestList.innerHTML = "";
+
+  list.forEach(name => {
+
+    const div = document.createElement("div");
+    div.className = "guest";
+
+    div.innerHTML = `
+      <span>${name}</span>
+      <button>حضر</button>
+    `;
+
+    const button = div.querySelector("button");
+
+    button.addEventListener("click", () => {
+
+      if(!button.classList.contains("checked")){
+        button.classList.add("checked");
+        button.innerText = "تم الحضور";
+        checkedCount++;
+        count.innerText = checkedCount;
+      }
+
+    });
+
+    guestList.appendChild(div);
+
+  });
+
+}
+
+renderGuests(guests);
+
+document.getElementById("search").addEventListener("input", function(){
+
+  const value = this.value.toLowerCase();
+
+  const filtered = guests.filter(name =>
+    name.toLowerCase().includes(value)
+  );
+
+  renderGuests(filtered);
+
+});
+
+</script>
+
+</body>
+</html>
